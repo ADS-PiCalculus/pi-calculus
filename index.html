@@ -5,6 +5,9 @@
 
 <meta charset="utf-8">
 <title>Stargazer: A Pi-Calculus Simulator</title>
+ <!-- Prism -->
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+
 <meta name="description" content="A Visual Pi-Calculus Simulator">
 <meta name="author" content="Emanuele D'Osualdo">
 <link rel="icon" type="image/png" href="http://emanueledosualdo.com/images/favicon.png">
@@ -33,6 +36,56 @@
 
 <script src="stargazer.min.js"></script>
 
+<style>
+  textarea::selection {
+            color: transparent;
+        }
+  #source-panel {
+      position: relative;
+      width: 100%;
+  }
+  #code-editor {
+      width: 100%;
+      min-height: 150px;
+      box-sizing: border-box;
+      background: transparent;
+      border: 1px solid #ccc;
+      font-family: monospace !important;
+      white-space: pre-wrap; 
+      overflow: auto;
+      position: relative;
+      z-index: 2;
+      padding: 10px;
+      font-size: 12px;
+      color: transparent;
+      caret-color: black;
+  }
+  #code-editor[contenteditable="true"]:empty:before {
+      content: attr(data-placeholder);
+      color: #888;
+  }
+  #code-container {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      min-height: 150px;
+      pointer-events: none;
+      overflow: auto;
+      z-index: 4;
+      font-family: monospace;
+      white-space: pre-wrap;
+      font-size: 12px;
+      padding: 10px;
+
+  }
+  /* Estilo personalizado para a palavra 'new' */
+  .token.new-keyword {
+      color: purple !important;
+      font-weight: bold;
+  }
+</style>
+
 
 </head>
 
@@ -60,12 +113,13 @@
         </div>
       </div>
       <div id="source-panel">
-        <textarea id="code-editor" spellcheck="false" name="program"></textarea>
-        <div class="ui hidden error message" id="validate-code">
-          <i class="close icon"></i>
-          <div class="header"></div>
-          <p></p>
-        </div>
+          <textarea id="code-editor" spellcheck="false" name="program"></textarea>
+          <div id="code-container"></div>
+          <div class="ui hidden error message" id="validate-code">
+            <i class="close icon"></i>
+            <div class="header"></div>
+            <p></p>
+          </div>
         <button class="ui compact mini button" id="reload-code"><i class="ui icon refresh"></i>Apply</button>
       </div>
       <div id="config-panel">
@@ -430,6 +484,35 @@ A[x] := new z.x(u).(A[u] | u&lt;x&gt;| C[z,u])</code></pre>
   </div>
 
  <script src="app.min.js"></script>
+
+  <!-- Inclua o Prism.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+ <script>
+  Prism.languages.javascript['keyword'] = /\b(?:new|var|if|else|function|return|for|while|do|break|continue|switch|case|default|throw|try|catch|finally|null|undefined|true|false|Boolean|Number|String|Object|Array|RegExp|Function|Error|EvalError|InternalError|RangeError|ReferenceError|SyntaxError|TypeError|URIError|JSON|Math|Date|Promise|console|window|document)\b/g;
+
+  Prism.languages.insertBefore('javascript', 'keyword', {
+      'new-keyword': /\bnew\b/g
+  });
+
+  function highlightCode() {
+      const codeEditor = document.getElementById('code-editor');
+      const codeContainer = document.getElementById('code-container');
+      codeContainer.innerHTML = Prism.highlight(codeEditor.value, Prism.languages.javascript, 'javascript');
+  }
+
+  // Destaca o código ao digitar
+  document.getElementById('code-editor').addEventListener('input', highlightCode);
+
+  // Destaca o código ao carregar a página
+  document.addEventListener('DOMContentLoaded', (event) => {
+      highlightCode();
+  });
+
+  // Atualiza o código ao clicar no botão
+  // document.getElementById('reload-code').addEventListener('click', highlightCode);
+</script>
 
 </body>
 </html>
