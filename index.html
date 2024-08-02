@@ -27,6 +27,7 @@
 <script src="lib/color-picker.min.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
@@ -37,6 +38,23 @@
         async src="/js/count.js"></script>
 
 <script src="stargazer.min.js"></script>
+
+<style>
+  .cm-keyword-x { color: blue; }
+  .cm-keyword-tau { color: green; }
+  .cm-keyword-new { color: red; }
+  .cm-keyword-parallel { color: rgb(167, 6, 121); }
+  .CodeMirror-hints {
+    position: absolute !important;
+    z-index: 1000 !important; /* Ajuste o z-index conforme necessário */
+
+}
+.CodeMirror-gutter{
+  background-color: white!important;
+  border-right: 1px solid #ddd;
+  margin-right: -1px;
+}
+</style>
 
 </head>
 
